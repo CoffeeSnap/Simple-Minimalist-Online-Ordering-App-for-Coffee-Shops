@@ -1,7 +1,9 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pay/pay.dart';
 import '../providers/cart_provider.dart';
+import '../config/payment_config.dart';
 import 'order_confirmation_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -22,6 +24,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _initializePaymentItems() {
     final cart = Provider.of<CartProvider>(context, listen: false);
+    _paymentItems.clear(); // Clear any existing items
     _paymentItems.add(
       PaymentItem(
         label: 'Total',
@@ -32,11 +35,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _onApplePayResult(Map<String, dynamic> result) {
+    // Check for errors or cancellation
+    if (result['error'] != null) {
+      _showErrorDialog('Payment Failed', 'Apple Pay payment was not completed.');
+      return;
+    }
     _processPayment('Apple Pay');
   }
 
   void _onGooglePayResult(Map<String, dynamic> result) {
+    // Check for errors or cancellation
+    if (result['error'] != null) {
+      _showErrorDialog('Payment Failed', 'Google Pay payment was not completed.');
+      return;
+    }
     _processPayment('Google Pay');
+  }
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _processPayment(String method) {
@@ -76,52 +105,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
 
-    // Payment configuration for Apple Pay
-    const applePayConfig = '''{
-      "provider": "apple_pay",
-      "data": {
-        "merchantIdentifier": "merchant.com.pierrescafe",
-        "displayName": "Pierre's Cafe",
-        "merchantCapabilities": ["3DS", "debit", "credit"],
-        "supportedNetworks": ["visa", "masterCard", "amex"],
-        "countryCode": "US",
-        "currencyCode": "USD"
-      }
-    }''';
-
-    // Payment configuration for Google Pay
-    const googlePayConfig = '''{
-      "provider": "google_pay",
-      "data": {
-        "environment": "TEST",
-        "apiVersion": 2,
-        "apiVersionMinor": 0,
-        "allowedPaymentMethods": [
-          {
-            "type": "CARD",
-            "tokenizationSpecification": {
-              "type": "PAYMENT_GATEWAY",
-              "parameters": {
-                "gateway": "example",
-                "gatewayMerchantId": "gatewayMerchantId"
-              }
-            },
-            "parameters": {
-              "allowedCardNetworks": ["VISA", "MASTERCARD", "AMEX"],
-              "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-              "billingAddressRequired": false
-            }
-          }
-        ],
-        "merchantInfo": {
-          "merchantName": "Pierre's Cafe"
-        },
-        "transactionInfo": {
-          "countryCode": "US",
-          "currencyCode": "USD"
-        }
-      }
-    }''';
+    // Get payment configurations from centralized config
+    final applePayConfig = PaymentConfig.getApplePayConfig();
+    final googlePayConfig = PaymentConfig.getGooglePayConfig();
 
     return Scaffold(
       appBar: AppBar(
@@ -196,34 +182,50 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 16),
-              // Apple Pay Button
-              ApplePayButton(
-                paymentConfiguration:
-                    PaymentConfiguration.fromJsonString(applePayConfig),
-                paymentItems: _paymentItems,
-                style: ApplePayButtonStyle.black,
-                type: ApplePayButtonType.buy,
-                onPaymentResult: _onApplePayResult,
-                loadingIndicator: const Center(
-                  child: CircularProgressIndicator(),
+              // Apple Pay Button (iOS only)
+              if (Platform.isIOS)
+                ApplePayButton(
+                  paymentConfiguration:
+                      PaymentConfiguration.fromJsonString(applePayConfig),
+                  paymentItems: _paymentItems,
+                  style: ApplePayButtonStyle.black,
+                  type: ApplePayButtonType.buy,
+                  onPaymentResult: _onApplePayResult,
+                  loadingIndicator: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  width: double.infinity,
+                  height: 50,
+                  margin: const EdgeInsets.only(bottom: 16),
                 ),
-                width: double.infinity,
-                height: 50,
-                margin: const EdgeInsets.only(bottom: 16),
-              ),
-              // Google Pay Button
-              GooglePayButton(
-                paymentConfiguration:
-                    PaymentConfiguration.fromJsonString(googlePayConfig),
-                paymentItems: _paymentItems,
-                type: GooglePayButtonType.buy,
-                onPaymentResult: _onGooglePayResult,
-                loadingIndicator: const Center(
-                  child: CircularProgressIndicator(),
+              // Google Pay Button (Android only)
+              if (Platform.isAndroid)
+                GooglePayButton(
+                  paymentConfiguration:
+                      PaymentConfiguration.fromJsonString(googlePayConfig),
+                  paymentItems: _paymentItems,
+                  type: GooglePayButtonType.buy,
+                  onPaymentResult: _onGooglePayResult,
+                  loadingIndicator: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  width: double.infinity,
+                  height: 50,
                 ),
-                width: double.infinity,
-                height: 50,
-              ),
+              // Fallback for other platforms
+              if (!Platform.isIOS && !Platform.isAndroid)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade100,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    'Payment is only available on iOS and Android devices',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.orange),
+                  ),
+                ),
             ],
           ),
         ),

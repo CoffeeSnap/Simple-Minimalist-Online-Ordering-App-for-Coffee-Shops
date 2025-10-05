@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(flutter create:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []

@@ -16,6 +16,10 @@ class CartProvider extends ChangeNotifier {
         _items.indexWhere((item) => item.menuItem.id == menuItem.id);
 
     if (existingIndex >= 0) {
+      // Add maximum quantity limit
+      if (_items[existingIndex].quantity >= 99) {
+        return; // Don't add more, silently ignore
+      }
       _items[existingIndex].quantity++;
     } else {
       _items.add(CartItem(menuItem: menuItem));
