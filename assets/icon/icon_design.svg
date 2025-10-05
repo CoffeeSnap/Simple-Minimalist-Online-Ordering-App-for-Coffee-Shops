@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="#D4A574" rx="180"/>
+
+  <!-- Decorative circle background -->
+  <circle cx="512" cy="512" r="400" fill="#8BA888" opacity="0.3"/>
+
+  <!-- Coffee cup shape -->
+  <g transform="translate(512, 512)">
+    <!-- Cup body -->
+    <path d="M -180 -80 L -160 180 Q -160 220 -120 240 L 120 240 Q 160 220 160 180 L 180 -80 Z"
+          fill="#FFF8DC" stroke="#8B6F47" stroke-width="12"/>
+
+    <!-- Coffee liquid -->
+    <ellipse cx="0" cy="-60" rx="170" ry="30" fill="#8B6F47" opacity="0.8"/>
+
+    <!-- Cup handle -->
+    <path d="M 180 -40 Q 260 -40 280 20 Q 280 80 240 120 Q 220 140 180 140"
+          fill="none" stroke="#FFF8DC" stroke-width="20"/>
+    <path d="M 180 -40 Q 260 -40 280 20 Q 280 80 240 120 Q 220 140 180 140"
+          fill="none" stroke="#8B6F47" stroke-width="12"/>
+
+    <!-- Steam lines -->
+    <path d="M -80 -120 Q -60 -180 -80 -240"
+          stroke="#FFFAF0" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.9"/>
+    <path d="M 0 -140 Q 20 -200 0 -260"
+          stroke="#FFFAF0" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.9"/>
+    <path d="M 80 -120 Q 100 -180 80 -240"
+          stroke="#FFFAF0" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+    <!-- Letter P overlay (subtle) -->
+    <text x="-60" y="80"
+          font-family="Arial, sans-serif"
+          font-size="180"
+          font-weight="bold"
+          fill="#8BA888"
+          opacity="0.4">P</text>
+  </g>
+
+  <!-- Bottom text -->
+  <text x="512" y="920"
+        text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-size="48"
+        font-weight="bold"
+        fill="#FFF8DC">PIERRE'S</text>
+</svg>
