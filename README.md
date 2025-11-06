@@ -1,6 +1,11 @@
 # Pierre's Cafe - Online Ordering App
 
-A lightweight, fast Flutter app for ordering coffee and healthy patisseries from Pierre's Cafe.
+A lightweight, fast Flutter app for ordering coffee and healthy patisseries from Pierre's Cafe 🥐
+
+[![Video: Write clean code as a software engineer. One Thing Principle](https://i1.ytimg.com/vi/WIaE4JB1vcg/sddefault.jpg)](https://www.youtube.com/watch?v=WIaE4JB1vcg)
+
+**[Click here to watch the full video on YouTube  →](https://www.youtube.com/watch?v=WIaE4JB1vcg)**
+
 
 ## Features
 
