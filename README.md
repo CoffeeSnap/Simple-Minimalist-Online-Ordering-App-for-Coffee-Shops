@@ -53,6 +53,7 @@ To enable Apple Pay in production:
 2. Configure Apple Pay in your Apple Developer account
 3. Update `ios/Runner/Info.plist` with payment processing entitlements
 
+
 ### Google Pay Configuration
 
 To enable Google Pay in production:
@@ -60,6 +61,7 @@ To enable Google Pay in production:
 1. Update the gateway and merchant ID in `lib/screens/checkout_screen.dart`
 2. Change environment from "TEST" to "PRODUCTION"
 3. Configure payment processor credentials
+
 
 ## Project Structure
 
@@ -84,19 +86,24 @@ lib/
     └── app_theme.dart       # App colors and styling
 ```
 
-## Color Palette
+## Project Branding Color Palette
 
 - **Light Brown**: #D4A574
 - **Coffee Green**: #8BA888
 - **Pale Yellow**: #FFF8DC
 - **Cream**: #FFFAF0
 
-## Dependencies
 
-- `provider`: State management
-- `pay`: Apple Pay and Google Pay integration
-- `cupertino_icons`: iOS-style icons
+## The Author
+
+[![Pierre-Henry Soria](https://avatars0.githubusercontent.com/u/1325411?s=200)](https://ph7.me)
+
+Made with ❤️ by **[Pierre-Henry Soria](https://pierrehenry.be)** — an AI Data Scientist & Senior Software Engineer. Incredibly passionate about AI, machine learning, data science, and emerging technologies. I could happily talk all night about programming and IT with anyone who’s keen. Roquefort 🧀, ristretto ☕️, and dark chocolate lover! 😋
+
 
 ## License
 
-Copyright © 2025 Pierre's Cafe. All rights reserved.
+Generously distributed under the [MIT License](LICENSE.md)
+
+
+[![@phenrysay](https://img.shields.io/badge/x-000000?style=for-the-badge&logo=x)](https://x.com/phenrysay "Follow Me on X")  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/pH-7 "My GitHub")  [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@pH7Programming/videos "Subscribe to my YouTube Channel")  [![BlueSky](https://img.shields.io/badge/BlueSky-00A8E8?style=for-the-badge&logo=bluesky&logoColor=white)](https://bsky.app/profile/ph7s.bsky.social "Follow Me on BlueSky")
